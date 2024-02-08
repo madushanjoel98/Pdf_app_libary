@@ -1,0 +1,93 @@
+<div>
+    <table id="subTable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+          <tr>
+            <th>Sub Category</th>
+            <th>Main Category</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be populated here -->
+        </tbody>
+      </table>
+</div>
+<script>
+    $(document).ready(function () {
+        load_subcat();
+    });
+     function load_subcat () { 
+    var table = $('#subTable').DataTable();
+        table.destroy();
+
+
+        $.ajax({
+           url: '/api/getallsubscat',
+            type: 'GET',
+            contentType: 'application/json',
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (response) {
+                // Handle the successful response from the API
+console.log(response);
+                $("#subTable").DataTable({
+                    dom: 'Bfrtip',
+                    
+                    "data": response,
+                    "columns": [
+                    
+                        { "data": "name" },
+                        { "data": "cats.name" },
+                        {
+                            // Add a "Delete" button
+                            data: null,
+                            render: function (data, type, row) {
+                                return '<button class="btn btn-sm btn-danger" onclick="deletesubcat(' + row.sutid + ')">X</button>';
+                            }
+                        }
+                    ]
+                });
+
+            },
+            error: function (xhr, status, error) {
+                showSubmissionNotification("error", xhr)
+                console.log(xhr.responseText);
+
+            }
+        });
+    }
+    function deletesubcat (id) { 
+   var data={"id":id};
+
+
+        $.ajax({
+           url: '/deletesubcat',
+            type: 'POST',
+            contentType: 'application/json',
+            crossDomain: true,
+            data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (response) {
+              console.log(response);
+              alert("Deleted");
+              load_subcat();
+            },
+            error: function (xhr, status, error) {
+               alert("Fail to delete");
+                console.log(xhr.responseText);
+
+            }
+        });
+    }
+  
+</script>

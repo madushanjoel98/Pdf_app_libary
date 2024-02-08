@@ -1,11 +1,12 @@
 package edu.app.domains;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Books {
     @Id
     @Column(name = "book_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long book_id;
 
     @Lob
@@ -19,8 +20,25 @@ public class Books {
     @ManyToOne(optional = false)
     @JoinColumn(name = "subcategory_sutid", nullable = false)
     private Subcategory subcategory;
+    
+    
+    @Lob
+    @Column(name = "firebase_image",nullable = true)
+    private String firebase_image;
 
-    public Subcategory getSubcategory() {
+    public String getFirebase_image() {
+		return firebase_image;
+	}
+
+	public void setFirebase_image(String firebase_image) {
+		this.firebase_image = firebase_image;
+	}
+
+	public void setFirebase_url(String firebase_url) {
+		this.firebase_url = firebase_url;
+	}
+
+	public Subcategory getSubcategory() {
         return subcategory;
     }
 

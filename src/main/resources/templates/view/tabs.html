@@ -32,17 +32,27 @@
     <h2>Books</h2>
     <p>This is the content of Tab 1.</p>
     <div th:insert="@{view/books/bookfrom.html}"></div>
+   <div th:insert="@{view/books/booktable.html}"></div>
   </div>
   <!-- Item -->
   <div id="cattab" class="tab-content">
     <h2>Main Category</h2>
-  
-    </div>
+    <div th:insert="@{/view/books/catform.html}"></div>
+    <div th:insert="@{view/books/mcattable.html}"></div>
+  <div>
+
+  </div>
+   
   </div>
   <!-- end -->
   <div id="subctab" class="tab-content">
-    <h2>Tab 3 Content</h2>
-   
+    <h2>Sub cat</h2>
+
+<div th:insert="@{view/books/subcatapp.html}"></div>
+    <div th:insert="@{view/books/subcat.html}"></div>
+   <div>
+    
+  </div>
   </div>
  
   
@@ -83,15 +93,7 @@
     });
     function loaddata(tabid){
       //Load Data table by clicking button 
-      if(tabid==="#comtab"){
      
-      }
-      if(tabid==="#cattab"){
-        loadItemtable();
-      }
-      if(tabid==="#subctab"){
-       
-      }
   
     
       //loadmainCatForItem

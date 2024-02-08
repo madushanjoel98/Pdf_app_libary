@@ -1,0 +1,97 @@
+<div>
+    <table id="mainTable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+          <tr>
+            <th>Main Category</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be populated here -->
+        </tbody>
+      </table>
+</div>
+<script>
+    $(document).ready(function () {
+        load_cat();
+    });
+     function load_cat () { 
+    var table = $('#mainTable').DataTable();
+        table.destroy();
+
+
+        $.ajax({
+           url: '/api/getallCats',
+            type: 'GET',
+            contentType: 'application/json',
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (response) {
+                // Handle the successful response from the API
+console.log(response);
+                $("#mainTable").DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ],
+                    "data": response,
+                    "columns": [
+                    
+                        { "data": "name" },
+                       
+                        {
+                            // Add a "Delete" button
+                            data: null,
+                            render: function (data, type, row) {
+                                return '<button class="btn btn-sm btn-danger" onclick="deletemaincat(' + row.catid + ')">X</button>';
+                            }
+                        }
+                    ]
+                });
+
+            },
+            error: function (xhr, status, error) {
+                showSubmissionNotification("error", xhr)
+                console.log(xhr.responseText);
+
+            }
+        });
+    }
+    function deletemaincat (id) { 
+   var data={"id":id};
+
+
+        $.ajax({
+           url: '/deletemaincat',
+            type: 'POST',
+            contentType: 'application/json',
+            crossDomain: true,
+            data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function (response) {
+              console.log(response);
+              alert(" Deleted");
+              load_cat();
+            },
+            error: function (xhr, status, error) {
+               alert("Fail to delete");
+                console.log(xhr.responseText);
+
+            }
+        });
+    }
+  
+</script>
