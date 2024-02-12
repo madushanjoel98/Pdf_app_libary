@@ -14,6 +14,7 @@ public class Subcategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sutid;
+	
 	@Column(nullable = false)
 	private String name;
 	

@@ -1,5 +1,7 @@
 package edu.app.controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +19,10 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import edu.app.domains.Category;
 import edu.app.domains.Subcategory;
+import edu.app.dto.BookResponse;
+import edu.app.dto.CommonListResponse;
 import edu.app.dto.CommonRequest;
+import edu.app.dto.SubCates;
 import edu.app.respo.BooksRepository;
 import edu.app.respo.CategoryRepository;
 import edu.app.respo.SubcategoryRepository;
@@ -32,31 +37,32 @@ public class APIController {
 	@Autowired
 	BooksRepository booksRepository;
 
-	@GetMapping(value="/getallCats",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getallCats", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> findallCats() {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(categoryRepository.findAll(), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new CommonListResponse(booksRepository.findAll()));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
+		//	output = new ResponseEntity(categoryRepository.findAll(), HttpStatus.OK);
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return output;
 	}
 
-	@PostMapping(value="/getsubsbycats",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE )
+	@PostMapping(value = "/getsubsbycats", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getsubsbycats(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
-System.out.println("**");
-			output = new ResponseEntity(subcategory.findByCats_Catid(request.getId()), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new SubCates(subcategory.findByCats_Catid(request.getId())));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return output;
 	}
 
-	@GetMapping(value="/getbookbysubid" ,produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getbookbysubid", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getbookbysubid(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
@@ -68,12 +74,14 @@ System.out.println("**");
 		return output;
 	}
 
-	@GetMapping(value="/getbookKeyword",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/getbookKeyword", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getbookKeyword(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(booksRepository.findinglikekey(request.getKeyword()), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new CommonListResponse(booksRepository.findByBook_nameLike(request.getKeyword())));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
+			
+			
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -84,32 +92,34 @@ System.out.println("**");
 	public ResponseEntity<?> getbookbyid(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(booksRepository.findById(Long.valueOf(request.getId())), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new BookResponse(booksRepository.findById(Long.valueOf(request.getId())
+					).get()));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return output;
 	}
-	
+
 	@GetMapping("/getAllbook")
 	public ResponseEntity<?> getAllbook() {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(booksRepository.findAll(), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new CommonListResponse(booksRepository.findAll()));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return output;
 	}
-	
-	@GetMapping(value="/getallsubscat" ,produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value = "/getallsubscat", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getallsubscat() {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(subcategory.findAll(), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new SubCates(subcategory.findAll()));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
+			
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
