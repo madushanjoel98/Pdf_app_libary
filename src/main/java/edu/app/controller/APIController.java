@@ -66,8 +66,9 @@ public class APIController {
 	public ResponseEntity<?> getbookbysubid(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
-
-			output = new ResponseEntity(booksRepository.findBySubcategory_Sutid(request.getId()), HttpStatus.OK);
+			JSONPObject array = new JSONPObject("data", new CommonListResponse(booksRepository.findBySubcategory_Sutid(request.getId())));
+			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
+			//output = new ResponseEntity(booksRepository.findBySubcategory_Sutid(request.getId()), HttpStatus.OK);
 		} catch (Exception e) {
 			output = new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
