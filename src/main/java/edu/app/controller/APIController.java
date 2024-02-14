@@ -23,6 +23,7 @@ import edu.app.dto.BookResponse;
 import edu.app.dto.CommonListResponse;
 import edu.app.dto.CommonRequest;
 import edu.app.dto.SubCates;
+import edu.app.dto.SubjectResponse;
 import edu.app.respo.BooksRepository;
 import edu.app.respo.CategoryRepository;
 import edu.app.respo.SubcategoryRepository;
@@ -41,7 +42,7 @@ public class APIController {
 	public ResponseEntity<?> findallCats() {
 		ResponseEntity<?> output = null;
 		try {
-			JSONPObject array = new JSONPObject("data", new CommonListResponse(booksRepository.findAll()));
+			JSONPObject array = new JSONPObject("data", new  SubjectResponse(categoryRepository.findAll()));
 			output = new ResponseEntity(array.getValue(), HttpStatus.OK);
 		//	output = new ResponseEntity(categoryRepository.findAll(), HttpStatus.OK);
 		} catch (Exception e) {

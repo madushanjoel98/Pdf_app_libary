@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface BooksRepository extends JpaRepository<Books, Long> {
+public interface BooksRepository 
+extends JpaRepository<Books, Long> {
     List<Books> findBySubcategory_Sutid(int sutid);
 
     @Query("select b from Books b where b.book_name like ?1")

@@ -79,7 +79,7 @@
                 },
                 success: function (response) {
                  console.log(response);
-                    $.each(response, function (indexInArray, valueOfElement) {
+                    $.each(response.data, function (indexInArray, valueOfElement) {
                         $("#subcats").append(' <option value="' + valueOfElement.sutid + '">' + valueOfElement.name + '</option>  ');
                     });
 //catid
@@ -106,8 +106,8 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 success: function (response) {
-                    console.log(response);
-                    $.each(response, function (indexInArray, valueOfElement) {
+                    console.log("CATS:"+response);
+                    $.each(response.data, function (indexInArray, valueOfElement) {
                         $("#maincatitem").append(' <option value="' + valueOfElement.catid + '">' + valueOfElement.name + '</option>  ');
                     });
 
@@ -147,7 +147,7 @@ console.log(response);
                         'csvHtml5',
                         'pdfHtml5'
                     ],
-                    "data": response,
+                    "data": response.data,
                     "columns": [
                         { "data": "book_name" },
                         { "data": "subcategory.cats.name" },

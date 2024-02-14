@@ -41,7 +41,7 @@
                 },
                 success: function (response) {
                     console.log(response);
-                    $.each(response, function (indexInArray, valueOfElement) {
+                    $.each(response.data, function (indexInArray, valueOfElement) {
                         $("#maincatitemw").append(' <option value="' + valueOfElement.catid + '">' + valueOfElement.name + '</option>  ');
                     });
 

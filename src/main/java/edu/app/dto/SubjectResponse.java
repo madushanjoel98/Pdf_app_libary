@@ -14,6 +14,11 @@ public class SubjectResponse {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<Category> data;
 
+	public SubjectResponse(List<Category> data) {
+		super();
+		this.data = data;
+	}
+
 	public List<Category> getData() {
 		return data;
 	}
@@ -22,9 +27,6 @@ public class SubjectResponse {
 		this.data = data;
 	}
 
-	public SubjectResponse(List<Category> data) {
-		super();
-		this.data = data;
-	}
+	
 
 }
