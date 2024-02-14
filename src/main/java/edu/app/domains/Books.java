@@ -26,7 +26,21 @@ public class Books {
     @Column(name = "firebase_image",nullable = true)
     private String firebase_image;
 
-    public String getFirebase_image() {
+    
+    @Lob
+    @Column(name = "description",nullable = true)
+    private String description;
+    
+    
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getFirebase_image() {
 		return firebase_image;
 	}
 
