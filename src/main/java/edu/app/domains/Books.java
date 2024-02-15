@@ -14,7 +14,7 @@ public class Books {
     private String book_name;
 
     @Lob
-    @Column(name = "firebase_url",nullable = true)
+    @Column(name = "firebase_url",nullable = true,length = 9999*99999)
     private String firebase_url;
 
     @ManyToOne(optional = false)

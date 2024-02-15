@@ -76,7 +76,7 @@ public class APIController {
 		return output;
 	}
 
-	@GetMapping(value = "/getbookKeyword", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/getbookKeyword", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getbookKeyword(@RequestBody CommonRequest request) {
 		ResponseEntity<?> output = null;
 		try {
